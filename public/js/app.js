@@ -15,30 +15,23 @@ weatherForm.addEventListener('submit', (e) => {
     messageOne.textContent = 'Loading...'
     messageTwo.textContent = ''
 
-    const location  = search.value
+    const location  = search.value  //capture the inputted value
 
+    // fecth the API on the same server we are running the app on
     fetch("/api?address=" + location).then( (response) => {
         
-    response.json().then((data) => {
-        if(data.error) {
-            messageOne.textContent = 'Error Getting data. Check Console'
-            messageTwo.textContent = ''
-            console.log(data.error);
-        }
-        else {
-            console.log(location);
-            console.log(data);
-            messageOne.textContent = data.location
-            messageTwo.textContent = data.summary + " The temperature is " + data.temperature + " degrees"
-        }
+        response.json().then((data) => {
+            if(data.error) {
+                messageOne.textContent = 'Error Getting data. Check Console'
+                messageTwo.textContent = ''
+                console.log(data.error);
+            }
+            else {
+                console.log("data.location : " + data.location);
+                console.log(data);
+                messageOne.textContent = data.location
+                messageTwo.textContent = data.string    // taken from app.js (backend)
+            }
+        })
     })
-
 })
-})
-
-
-// fetch has to return JSON. Not HTML
-
-
-
-

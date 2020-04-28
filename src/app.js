@@ -11,7 +11,6 @@ const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials')
-console.log(partialsPath)
 
 // Setup handlebars engine and views location
 app.set('view engine', 'hbs')
@@ -22,29 +21,27 @@ hbs.registerPartials(partialsPath)
 app.use(express.static(publicDirectoryPath))
 app.use(express.static(viewsPath))
 
-// Enviornment variables
+// Enviornment variables (local / live)
 const port = process.env.PORT || 3000
-
-
 
 app.get('', (req, res) => {
 
-
+    // Request to access the root directory
     if(!req.query.address){
          return res.render('index', {
             title:'Home Page',
-            name: 'Kevin Mckeon',
-            
+            name: 'Kevin Mckeon',        
         })
     }
 
+    // In case of an error, set undefined data for deconstruction
     geocode(req.query.address, (error, {latitude, longitude, location} = {}) => {
 
         if(error){
             return res.send({error})
         }
         
-        weather(latitude, longitude, (error, {summary, temperature, precipProbability} = {}) => {
+        weather(latitude, longitude, (error, {summary, temperature, precipProbability, string} = {}) => {
 
             if(error){
                 return res.send({error})
@@ -53,25 +50,28 @@ app.get('', (req, res) => {
             res.render('index', {
                 title:'Home Page',
                 name: 'Kevin Mckeon',
-                data : {
+                data: {
                     latitude,
                     longitude,
                     location,
                     summary,
                     temperature,
-                    precipProbability
+                    precipProbability,
+                    string  //taken from data deconstruction above, which is taken from weatherfinder.js                     
                 }
             })
         })
     })
 })
 
+// Response is returned in JSON for debugging purposes 
 app.get('/api', (req, res) => {
-
 
     if(!req.query.address){
         return res.send({
-            error : 'Please provide an address to the query String'
+            error : 'Enter a Query String parameter',
+            example_PROD : 'https://mckeon-weather-app.herokuapp.com/api?address=mullingar',
+            example_DEV : 'http://192.168.0.38:3000/api?address=mullingar'
         })
     }
 
@@ -81,21 +81,20 @@ app.get('/api', (req, res) => {
             return res.send({error})
         }
         
-        weather(latitude, longitude, (error, {summary, temperature, precipProbability} = {}) => {
+        weather(latitude, longitude, (error, {summary, temperature, precipProbability, string} = {}) => {
 
             if(error){
                 return res.send({error})
             }
 
-            return res.send({
-                
+            return res.send({          
                     latitude,
                     longitude,
                     location,
                     summary,
                     temperature,
-                    precipProbability
-                
+                    precipProbability,
+                    string
             })
         })
     })
@@ -129,8 +128,7 @@ app.get('*', (req, res) => {
     })
 })
 
-
+// The port uses the env variables above to determin DEV/PROD
 app.listen(port, () => {
-    console.log('Server is up on port 3000')
+    console.log('Server is up on port : ' + port)
 })
-

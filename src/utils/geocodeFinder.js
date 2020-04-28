@@ -14,7 +14,7 @@ const geocodeFunction = (address, callback) => {
 
     // deconstruct the response object to extract the 'body' element
     request( mapBoxRequest, (error, {body} = {})  => {
-        
+
         if(error){
             callback('Error connecting to Map Box' , undefined)
         } else if (body.features.length === 0){
@@ -28,6 +28,5 @@ const geocodeFunction = (address, callback) => {
         }
     })
 }
-
 
 module.exports = geocodeFunction

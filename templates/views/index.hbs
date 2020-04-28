@@ -1,0 +1,45 @@
+<!-- Hbs is only a html file with a few extra featurs for adding dynamic values -->
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="./css/styles.css">
+       
+    </head>
+    <body>       
+        <div class = "main-content">
+            
+            {{>header}}
+
+            <p>Enter Search location</p>
+
+                <form>
+                    <input placeholder="Location">
+                    <button>Search</button>
+                </form>
+
+                <p id="message-1"></p>
+                <p id="message-2"></p>
+
+            <br><br>
+            
+            <div class = "sub-content">
+                {{data.location}}
+                <br>
+               {{data.summary}}
+                <br>
+               {{data.temperature}}
+               <br>
+               {{data.precipProbability}}
+            
+            </div>
+
+        </div>
+        
+        {{>footer}}
+
+        <script src="./js/app.js"></script>
+    </body>
+
+</html>

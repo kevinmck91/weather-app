@@ -32,7 +32,7 @@ app.get('', (req, res) => {
 
     if(!req.query.address){
          return res.render('index', {
-            title:'Index Page',
+            title:'Home Page',
             name: 'Kevin Mckeon',
             
         })
@@ -51,7 +51,7 @@ app.get('', (req, res) => {
             }
 
             res.render('index', {
-                title:'Index Page',
+                title:'Home Page',
                 name: 'Kevin Mckeon',
                 data : {
                     latitude,

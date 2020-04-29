@@ -1,4 +1,9 @@
-Start the server using ' node src/app.js'
+Start the server in Prod using 'node src/app.js' or 'npm start' which runs the starting script found in package.json
+
+To start the server in DEV mode, run 'install nodemon --save-dev' and then run 'npm run dev'
+
+Better off to install nodemon locally 'npm install nodemon --save-dev' rather than globally and then the 'dev dependancies' are added to the package.json
+This prevents Heroku using nodemon
 
 Express is a minimalistic 'bare bones' web framework built for Node JS.
 The query string is taken by express
